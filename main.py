@@ -1,14 +1,11 @@
 import pygame
+from character import *
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 800
-
-CHARACTER_SPEED = 0.5
-CHARACTER_WIDTH = 20
-CHARACTER_HEIGHT = 20
 
 
 def main():
@@ -29,23 +26,22 @@ def main():
 
         screen.fill(BLACK)
 
-        pygame.draw.rect(
-            screen,
-            WHITE,
-            (
-                character_position_x,
-                character_position_y,
-                CHARACTER_WIDTH,
-                CHARACTER_HEIGHT,
-            ),
-        )
+        screen.blit(picture_minotaur_idle, (character_position_x, character_position_y))
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT]:
+            screen.blit(
+                picture_minotaur_walking_right,
+                (character_position_x, character_position_y),
+            )
             character_position_x += CHARACTER_SPEED
             if character_position_x > SCREEN_WIDTH - CHARACTER_WIDTH:
                 character_position_x = SCREEN_WIDTH - CHARACTER_WIDTH
         if keys[pygame.K_LEFT]:
+            screen.blit(
+                picture_minotaur_walking_left,
+                (character_position_x, character_position_y),
+            )
             character_position_x -= CHARACTER_SPEED
             if character_position_x < 0:
                 character_position_x = 0
