@@ -1,7 +1,6 @@
-!! Change this document for your own project by removing the placeholder text, adding your own text, adding helpful sections etc. etc. !!
+# Definitely not Donkey Kong
 
-# <Project Title>
-
+Das Projekt beinhaltet ein Platformer-Game, bei welchem Sammelobjekte eingesammelt werden können und so neue Fähigkeiten freigeschaltet werden.
 In a few sentences describe what your project is trying to solve.
 
 You can use [GitHub markdown
