@@ -1,11 +1,12 @@
 import pygame
 from character import *
+from object import *
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 800
+SCREEN_WIDTH = 900
+SCREEN_HEIGHT = 600
 
 
 def main():
@@ -27,6 +28,7 @@ def main():
         screen.fill(BLACK)
 
         screen.blit(picture_minotaur_idle, (character_position_x, character_position_y))
+        screen.blit(picture_object_Coffee_Cup, (object_position_x, object_position_y))
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT]:
@@ -47,6 +49,21 @@ def main():
                 character_position_x = 0
 
         pygame.display.update()
+
+
+def collect_coffee_cup():
+    counter_text = font.render("Counter: {}".format(counter), True, white)
+    counter = 0
+    screen.blit(Counter_Text, 10, 10)
+    if (
+        character_position_x == object_position_x
+        and character_position_y == object_position_y
+    ):
+        counter += 1
+        object_position_x = -100
+        object_position_y = -100
+
+        collect_coffee_cup()
 
 
 if __name__ == "__main__":
