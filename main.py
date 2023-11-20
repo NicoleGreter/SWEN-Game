@@ -5,7 +5,7 @@ from leveldesign import *
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-SCREEN_WIDTH = 1000
+SCREEN_WIDTH = 960
 SCREEN_HEIGHT = 800
 
 
