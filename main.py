@@ -1,5 +1,6 @@
 import pygame
 from character import *
+from leveldesign import *
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -16,8 +17,8 @@ def main():
 
     running = True
 
-    character_position_x = 50
-    character_position_y = 500
+    character_position_x = 40
+    character_position_y = 560
 
     while running:
         for event in pygame.event.get():
@@ -25,6 +26,7 @@ def main():
                 running = False
 
         screen.fill(BLACK)
+        screen.blit(BackGround.image, BackGround.rect)
 
         screen.blit(picture_minotaur_idle, (character_position_x, character_position_y))
 
