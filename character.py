@@ -12,11 +12,16 @@ picture_minotaur_idle = pygame.transform.scale(
 )
 
 picture_minotaur_walking_right = pygame.image.load(
-    "./images/Minotaur/PNG/PNG Sequences/Walking/0_Minotaur_Walking_000.png"
+    "images\Minotaur\PNG\PNG Sequences\Walking\Walking.png"
 )
+
 picture_minotaur_walking_right = pygame.transform.scale(
-    picture_minotaur_walking_right, (CHARACTER_WIDTH, CHARACTER_HEIGHT)
+    picture_minotaur_walking_right, (CHARACTER_WIDTH * 24, CHARACTER_HEIGHT)
 )
 picture_minotaur_walking_left = pygame.transform.flip(
     picture_minotaur_walking_right, True, False
 )
+
+pygame.init()
+keys = pygame.key.get_pressed()
+print(keys)
