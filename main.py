@@ -11,6 +11,11 @@ SCREEN_HEIGHT = 800
 def main():
     pygame.init()
 
+    # returns time when it starts to run
+    last_update = pygame.time.get_ticks()
+    animation_cooldown_ms = 75
+    frame = 0
+
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Definitely not Donkey Kong")
 
@@ -24,21 +29,27 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+        # returns the current_time and updates the animation
+        current_time = pygame.time.get_ticks()
+        if current_time - last_update >= animation_cooldown_ms:
+            frame += 1
+            last_update = current_time
+
         screen.fill(BLACK)
 
         keys = pygame.key.get_pressed()
+
         if keys[pygame.K_RIGHT]:
             screen.blit(
-                picture_minotaur_walking_right,
+                walking_right_images[frame % len(walking_right_images)],
                 (character_position_x, character_position_y),
-                (300, 0, 75, 75),
             )
             character_position_x += CHARACTER_SPEED
             if character_position_x > SCREEN_WIDTH - CHARACTER_WIDTH:
                 character_position_x = SCREEN_WIDTH - CHARACTER_WIDTH
         elif keys[pygame.K_LEFT]:
             screen.blit(
-                picture_minotaur_walking_left,
+                walking_left_images[frame % len(walking_left_images)],
                 (character_position_x, character_position_y),
             )
             character_position_x -= CHARACTER_SPEED
@@ -46,8 +57,10 @@ def main():
                 character_position_x = 0
         else:
             screen.blit(
-                picture_minotaur_idle, (character_position_x, character_position_y)
+                idle_images[frame % len(idle_images)],
+                (character_position_x, character_position_y),
             )
+
         pygame.display.update()
 
 
