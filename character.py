@@ -2,12 +2,14 @@ import pygame
 
 
 class Character:
-    def __init__(self, game, x, y, character_width, character_height):
+    def __init__(self, game, x, y, character_width, character_height, speed_x, speed_y):
         self.x = x
         self.y = y
         self.character_width = character_width
         self.character_height = character_height
         self.game = game
+        self.speed_x = speed_x
+        self.speed_y = speed_y
         self.surface = game.screen
         # Skalierung damit rectangle hinter charackter width = 75/900 * 375 = 31.25 und hight 75/900 * 505 = 42.1
         self.rect = pygame.Rect(self.x + 20, self.y + 21, 31.25, 42.1)
@@ -61,9 +63,9 @@ class Character:
         #     self.x, self.y, self.character_width, self.character_height
         # )
         self.draw()
-        self.movement(50, frame)
+        self.movement(self.speed_x, self.speed_y, frame)
 
-    def movement(self, speed, frame):
+    def movement(self, speed_x, speed_y, frame):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT]:
@@ -71,7 +73,7 @@ class Character:
                 self.walking_right_images[frame % len(self.walking_right_images)],
                 (self.x, self.y),
             )
-            self.x += speed * self.game.delta_time
+            self.x += speed_x * self.game.delta_time
             if self.x > self.game.screen_width - self.character_width:
                 self.x = self.game.screen_width - self.character_width
         elif keys[pygame.K_LEFT]:
@@ -79,7 +81,7 @@ class Character:
                 self.walking_left_images[frame % len(self.walking_left_images)],
                 (self.x, self.y),
             )
-            self.x -= speed * self.game.delta_time
+            self.x -= speed_x * self.game.delta_time
             if self.x < 0:
                 self.x = 0
         elif keys[pygame.K_UP]:
@@ -87,7 +89,7 @@ class Character:
                 self.jump_start_images[frame % len(self.jump_start_images)],
                 (self.x, self.y),
             )
-            self.y -= speed * self.game.delta_time
+            self.y -= speed_y * self.game.delta_time
             if self.x < 0:
                 self.x = 0
         else:
