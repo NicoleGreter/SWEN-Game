@@ -9,9 +9,8 @@ class Character:
         self.character_height = character_height
         self.game = game
         self.surface = game.screen
-        self.rect = pygame.Rect(
-            self.x, self.y, self.character_width, self.character_height
-        )
+        # Skalierung damit rectangle hinter charackter width = 75/900 * 375 = 31.25 und hight 75/900 * 505 = 42.1
+        self.rect = pygame.Rect(self.x + 20, self.y + 21, 31.25, 42.1)
         # Idle blinking_right
         self.idle_images = []
         for i in range(18):
@@ -98,6 +97,8 @@ class Character:
             )
 
     def draw(self):
-        self.rect.x = self.x
-        self.rect.y = self.y
-        # self.rect = pygame.draw.rect(self.surface, (0, 0, 0), (self.x, self.y, 75, 75))
+        self.rect.x = self.x + 20
+        self.rect.y = self.y + 21
+        # self.rect = pygame.draw.rect(
+        #     self.surface, (0, 0, 0), (self.x + 20, self.y + 21, 31.25, 42.1)
+        # )
