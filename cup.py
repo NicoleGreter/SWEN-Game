@@ -12,7 +12,7 @@ class Cup:
         self.is_collected = False
         self.picture_coffee_cup = pygame.image.load("./images/Objects/Coffee_Cup.png")
         self.picture_coffee_cup = pygame.transform.scale(
-            self.picture_coffee_cup, (30, 30)
+            self.picture_coffee_cup, (20, 20)
         )
 
     def draw(self):
