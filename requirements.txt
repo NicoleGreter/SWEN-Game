@@ -9,7 +9,7 @@
 
 # For programming a game with pygame, you want to uncomment the following line:
 pygame==2.5.2
-pytmx = 3.32
+pytmx == 3.32
 
 # If you want to try to package your project for easier distribution, uncomment
 # the following line:
