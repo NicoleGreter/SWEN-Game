@@ -1,55 +1,58 @@
 import pygame
-from character import *
 from leveldesign import *
+from character import Character
+from cup import Cup
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-SCREEN_WIDTH = 960
-SCREEN_HEIGHT = 800
+
+class Game:
+    def __init__(self):
+        pygame.init()
+        self.screen_width = 960
+        self.screen_height = 800
+        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+        pygame.display.set_caption("Definitely not Donkey Kong")
+
+        self.clock = pygame.time.Clock()
+        self.character = Character(self, 40, 560, 75, 75)
+        self.cups = [
+            Cup(self, 200, 560, 30, 30),
+            Cup(self, 300, 560, 30, 30),
+            Cup(self, 500, 560, 30, 30),
+        ]
+        self.counter = 0
+        self.font = pygame.font.Font(None, 36)
+        self.run()
+
+    def run(self):
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                # if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                # running = False
+
+            self.delta_time = self.clock.tick(60) / 1000
+            self.screen.fill(BLACK)
+            self.screen.blit(BackGround.image, BackGround.rect)
+            self.character.update()
+
+            for cup in self.cups:
+                cup.update()
+                if cup.is_collected:
+                    self.cups.remove(cup)
+                    self.counter += 1
+            self.display_counter()
+            pygame.display.update()
+
+        pygame.quit()
+
+    def display_counter(self):
+        text = self.font.render(f"gesammelte Objekte: {self.counter}", True, "blue")
+        self.screen.blit(text, (self.screen_width - 300, 20))
 
 
-def main():
-    pygame.init()
-
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption("Definitely not Donkey Kong")
-
-    running = True
-
-    character_position_x = 40
-    character_position_y = 560
-
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-
-        screen.fill(BLACK)
-        screen.blit(BackGround.image, BackGround.rect)
-
-        screen.blit(picture_minotaur_idle, (character_position_x, character_position_y))
-
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_RIGHT]:
-            screen.blit(
-                picture_minotaur_walking_right,
-                (character_position_x, character_position_y),
-            )
-            character_position_x += CHARACTER_SPEED
-            if character_position_x > SCREEN_WIDTH - CHARACTER_WIDTH:
-                character_position_x = SCREEN_WIDTH - CHARACTER_WIDTH
-        if keys[pygame.K_LEFT]:
-            screen.blit(
-                picture_minotaur_walking_left,
-                (character_position_x, character_position_y),
-            )
-            character_position_x -= CHARACTER_SPEED
-            if character_position_x < 0:
-                character_position_x = 0
-
-        pygame.display.update()
-
-
-if __name__ == "__main__":
-    main()
+game = Game()
