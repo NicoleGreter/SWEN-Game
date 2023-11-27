@@ -33,9 +33,15 @@ class Game:
             75,
         )
         self.cups = [
-            Cup(self, 200, 560, 30, 30),
-            Cup(self, 300, 560, 30, 30),
-            Cup(self, 500, 560, 30, 30),
+            Cup(self, 200, 540, 20, 20),
+            Cup(self, 280, 605, 20, 20),
+            Cup(self, 320, 238, 20, 20),
+            Cup(self, 450, 92, 20, 20),
+            Cup(self, 510, 494, 20, 20),
+            Cup(self, 600, 605, 20, 20),
+            Cup(self, 690, 318, 20, 20),
+            Cup(self, 870, 396, 20, 20),
+            Cup(self, 890, 605, 20, 20),
         ]
         self.counter = 0
         self.font = pygame.font.Font(None, 36)
