@@ -9,11 +9,9 @@ class Character:
         self.character_height = character_height
         self.game = game
         self.surface = game.screen
-        # self.rect = pygame.Rect(
-        #     self.x, self.y, self.character_width, self.character_height
-        # )
-        self.rect = pygame.Rect(self.x + 20, self.y + 20, 33.3, 43.25)
-
+        self.rect = pygame.Rect(
+            self.x, self.y, self.character_width, self.character_height
+        )
         # Idle blinking_right
         self.idle_images = []
         for i in range(18):
@@ -49,10 +47,10 @@ class Character:
                 )
             )
         # Jump Start
-        jump_start_images = []
+        self.jump_start_images = []
         for i in range(6):
             image_path = f"./images/Minotaur/PNG/PNG Sequences/Jump Start/0_Minotaur_Jump Start_{i:03d}.png"
-            jump_start_images.append(
+            self.jump_start_images.append(
                 pygame.transform.scale(
                     pygame.image.load(image_path).convert_alpha(),
                     (self.character_width, self.character_height),
@@ -100,11 +98,6 @@ class Character:
             )
 
     def draw(self):
-        # Skalierung 75/900 * 400 width = 33.3
-        # Skalierung 75/900 * 519 hight = 43.25
-        self.rect.x = self.x + 18
-        self.rect.y = self.y + 20
-
-    # self.rect = pygame.draw.rect(
-    #     self.surface, (0, 0, 0), (self.x + 20, self.y + 20, 33.3, 43.25)
-    # )
+        self.rect.x = self.x
+        self.rect.y = self.y
+        # self.rect = pygame.draw.rect(self.surface, (0, 0, 0), (self.x, self.y, 75, 75))

@@ -2,6 +2,7 @@ import pygame
 from leveldesign import *
 from character import Character
 from cup import Cup
+from pytmx.util_pygame import load_pygame
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -14,12 +15,23 @@ class Game:
         self.screen_height = 800
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Definitely not Donkey Kong")
+        tmx_data = load_pygame("./images/Hintergrund_nur_Platform.tmx")
+        for layer in tmx_data.layers:
+            for x, y, surf in layer.tiles():
+                pos = (x * 16, y * 16)
+                Tile(pos=pos, surf=surf, groups=sprite_group)
         # returns time when it starts to run
         self.last_update = pygame.time.get_ticks()
         self.animation_cooldown_ms = 75
         self.frame = 0
         self.clock = pygame.time.Clock()
-        self.character = Character(self, 40, 560, 75, 75)
+        self.character = Character(
+            self,
+            40,
+            560,
+            75,
+            75,
+        )
         self.cups = [
             Cup(self, 200, 560, 30, 30),
             Cup(self, 300, 560, 30, 30),
@@ -42,6 +54,7 @@ class Game:
 
             self.screen.fill(BLACK)
             self.screen.blit(BackGround.image, BackGround.rect)
+            sprite_group.draw(self.screen)
             # returns the current_time and updates the animation
             current_time = pygame.time.get_ticks()
             if current_time - self.last_update >= self.animation_cooldown_ms:
