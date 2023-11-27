@@ -41,3 +41,13 @@ for i in range(24):
             False,
         )
     )
+
+# Jump Start
+jump_start_images = []
+for i in range(6):
+    image_path = f"./images/Minotaur/PNG/PNG Sequences/Jump Start/0_Minotaur_Jump Start_{i:03d}.png"
+    jump_start_images.append(
+        pygame.transform.scale(
+            pygame.image.load(image_path), (CHARACTER_WIDTH, CHARACTER_HEIGHT)
+        )
+    )

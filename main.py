@@ -55,6 +55,14 @@ def main():
             character_position_x -= CHARACTER_SPEED
             if character_position_x < 0:
                 character_position_x = 0
+        elif keys[pygame.K_UP]:
+            screen.blit(
+                jump_start_images[frame % len(jump_start_images)],
+                (character_position_x, character_position_y),
+            )
+            character_position_y -= CHARACTER_SPEED
+            if character_position_x < 0:
+                character_position_x = 0
         else:
             screen.blit(
                 idle_images[frame % len(idle_images)],
