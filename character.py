@@ -64,9 +64,11 @@ class Character:
         self.movement(200, frame)
 
     def movement(self, speed, frame):
+        isJump = False
+        jumpCount = 10
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] and not (keys[pygame.K_LEFT]):
             self.surface.blit(
                 self.walking_right_images[frame % len(self.walking_right_images)],
                 (self.x, self.y),
@@ -74,7 +76,7 @@ class Character:
             self.x += speed * self.game.delta_time
             if self.x > self.game.screen_width - 75 + 24:
                 self.x = self.game.screen_width - 75 + 24
-        elif keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] and not (keys[pygame.K_RIGHT]):
             self.surface.blit(
                 self.walking_left_images[frame % len(self.walking_left_images)],
                 (self.x, self.y),
@@ -90,7 +92,7 @@ class Character:
             self.y -= speed * self.game.delta_time
             if self.x < 0:
                 self.x = 0
-        else:
+        if not (True in keys):
             self.surface.blit(
                 self.idle_images[frame % len(self.idle_images)],
                 (self.x, self.y),
