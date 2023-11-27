@@ -97,8 +97,8 @@ class Character:
             )
 
     def draw(self):
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.rect.x = self.x + 20
+        self.rect.y = self.y + 21
         # self.rect = pygame.draw.rect(
         #     self.surface, (0, 0, 0), (self.x + 20, self.y + 21, 31.25, 42.1)
         # )
