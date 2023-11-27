@@ -61,7 +61,7 @@ class Character:
         #     self.x, self.y, self.character_width, self.character_height
         # )
         self.draw()
-        self.movement(50, frame)
+        self.movement(200, frame)
 
     def movement(self, speed, frame):
         keys = pygame.key.get_pressed()
@@ -72,16 +72,16 @@ class Character:
                 (self.x, self.y),
             )
             self.x += speed * self.game.delta_time
-            if self.x > self.game.screen_width - self.character_width:
-                self.x = self.game.screen_width - self.character_width
+            if self.x > self.game.screen_width - 75 + 24:
+                self.x = self.game.screen_width - 75 + 24
         elif keys[pygame.K_LEFT]:
             self.surface.blit(
                 self.walking_left_images[frame % len(self.walking_left_images)],
                 (self.x, self.y),
             )
             self.x -= speed * self.game.delta_time
-            if self.x < 0:
-                self.x = 0
+            if self.x < -24:
+                self.x = -24
         elif keys[pygame.K_UP]:
             self.surface.blit(
                 self.jump_start_images[frame % len(self.jump_start_images)],
