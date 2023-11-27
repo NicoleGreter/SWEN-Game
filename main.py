@@ -14,7 +14,10 @@ class Game:
         self.screen_height = 800
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Definitely not Donkey Kong")
-
+        # returns time when it starts to run
+        self.last_update = pygame.time.get_ticks()
+        self.animation_cooldown_ms = 75
+        self.frame = 0
         self.clock = pygame.time.Clock()
         self.character = Character(self, 40, 560, 75, 75)
         self.cups = [
@@ -36,9 +39,16 @@ class Game:
                 # running = False
 
             self.delta_time = self.clock.tick(60) / 1000
+
             self.screen.fill(BLACK)
             self.screen.blit(BackGround.image, BackGround.rect)
-            self.character.update()
+            # returns the current_time and updates the animation
+            current_time = pygame.time.get_ticks()
+            if current_time - self.last_update >= self.animation_cooldown_ms:
+                self.frame += 1
+                self.last_update = current_time
+
+            self.character.update(self.frame)
 
             for cup in self.cups:
                 cup.update()
