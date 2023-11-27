@@ -9,15 +9,19 @@ class Character:
         self.character_height = character_height
         self.game = game
         self.surface = game.screen
-        self.rect = pygame.Rect(self.x, self.y, 75, 75)
+        self.rect = pygame.Rect(
+            self.x, self.y, self.character_width, self.character_height
+        )
 
     def update(self):
-        self.rect = pygame.Rect(self.x, self.y, 75, 75)
+        self.rect = pygame.Rect(
+            self.x, self.y, self.character_width, self.character_height
+        )
         self.movement(20)
         self.draw()
 
     def draw(self):
-        pygame.draw.rect(self.surface, "black", (self.x, self.y, 75, 75))
+        pygame.draw.rect(self.surface, "yellow", (self.x, self.y, 75, 75))
         picture_minotaur_idle = pygame.image.load(
             "./images/Minotaur/PNG/PNG Sequences/Idle/0_Minotaur_Idle_000.png"
         )

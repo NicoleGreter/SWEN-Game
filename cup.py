@@ -14,7 +14,7 @@ class Cup:
         )
 
     def draw(self):
-        pygame.draw.rect(self.game.screen, "black", self.rect)
+        pygame.draw.rect(self.game.screen, "yellow", self.rect)
         self.game.screen.blit(self.picture_coffee_cup, (self.x, self.y))
 
     def update(self):
