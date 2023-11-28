@@ -2,12 +2,23 @@ import pygame
 
 
 class Character:
-    def __init__(self, game, x, y, character_width, character_height, speed_x, speed_y):
+    def __init__(
+        self,
+        game,
+        x,
+        y,
+        character_width,
+        character_height,
+        acceleration_x,
+        speed_x,
+        speed_y,
+    ):
         self.x = x
         self.y = y
         self.character_width = character_width
         self.character_height = character_height
         self.game = game
+        self.acceleration_x = acceleration_x
         self.speed_x = speed_x
         self.speed_y = speed_y
         self.surface = game.screen
@@ -63,11 +74,11 @@ class Character:
         #     self.x, self.y, self.character_width, self.character_height
         # )
         self.draw()
-        self.horizental_movement(self.speed_x, frame)
+        self.horizental_movement(self.acceleration_x, frame)
         self.vertical_movement(self.speed_y, frame)
-        # self.checkcollisionsx(tiles)
+        self.checkcollisionsx(self.game.tiles_rects)
 
-    def horizental_movement(self, speed_x, frame):
+    def horizental_movement(self, acceleration_x, frame):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT]:
@@ -76,16 +87,19 @@ class Character:
                     self.walking_right_images[frame % len(self.walking_right_images)],
                     (self.x, self.y),
                 )
-            self.x += speed_x * self.game.delta_time
+
+            self.speed_x = acceleration_x
+            self.x += self.speed_x * self.game.delta_time
             if self.x > self.game.screen_width - self.character_width:
                 self.x = self.game.screen_width - self.character_width
-        elif keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT]:
             if not keys[pygame.K_UP]:
                 self.surface.blit(
                     self.walking_left_images[frame % len(self.walking_left_images)],
                     (self.x, self.y),
                 )
-            self.x -= speed_x * self.game.delta_time
+            self.speed_x = acceleration_x * -1
+            self.x += self.speed_x * self.game.delta_time
             if self.x < 0:
                 self.x = 0
         else:
@@ -107,22 +121,24 @@ class Character:
             if self.x < 0:
                 self.x = 0
 
-    # def get_hits(self, tiles):
-    #   hits = []
-    #   for tile in tiles:
-    #       if self.rect.colliderect(tile):
-    #           hits.append(tile)
-    #   return hits
+    def get_hits(self, tiles_rects):
+        hits = []
+        for tile_rect in tiles_rects:
+            if self.rect.colliderect(tile_rect):
+                hits.append(tile_rect)
+        return hits
 
-    # def checkcollisionsx(self, tiles):
-    #   collisions = self.get_hits(tiles)
-    #   for tile in collisions:
-    #       if self.speed_x > 0:  # Hit tile moving right
-    #           self.x = tile.rect.left - self.rect.w
-    #           self.rect.x = self.x
-    #       elif self.speed_x < 0:  # Hit tile moving left
-    #           self.x = tile.rect.right
-    #           self.rect.x = self.x
+    def checkcollisionsx(self, tiles):
+        collisions = self.get_hits(tiles)
+        for tile_rect in collisions:
+            if self.speed_x > 0:  # Hit tile moving right
+                self.x = tile_rect.left - 52
+                self.rect.x = self.x
+                self.speed_x = 0
+            elif self.speed_x < 0:  # Hit tile moving left
+                self.x = tile_rect.right - 21
+                self.rect.x = self.x
+                self.speed_x = 0
 
     def draw(self):
         self.rect.x = self.x + 20

@@ -16,13 +16,13 @@ class Game:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Definitely not Donkey Kong")
         tmx_data = load_pygame("./images/Hintergrund_nur_Platform.tmx")
-        tiles = Tile.get_tiles(self, tmx_data)
+        self.tiles = Tile.get_tiles(self, tmx_data)
         # returns time when it starts to run
         self.last_update = pygame.time.get_ticks()
         self.animation_cooldown_ms = 75
         self.frame = 0
         self.clock = pygame.time.Clock()
-        self.character = Character(self, 40, 560, 75, 75, 50, 50)
+        self.character = Character(self, 40, 560, 75, 75, 50, 0, 50)
         self.cups = [
             Cup(self, 200, 540, 20, 20),
             Cup(self, 280, 605, 20, 20),
@@ -56,39 +56,6 @@ class Game:
             if current_time - self.last_update >= self.animation_cooldown_ms:
                 self.frame += 1
                 self.last_update = current_time
-
-            for (
-                self.tile_rect
-            ) in self.tiles_rects:  # tiles_rects enthält die Rechtecke der Tiles
-                if self.character.rect.colliderect(self.tile_rect):
-                    if (
-                        self.character.rect.right
-                        > self.tile_rect.left
-                        > self.character.rect.left
-                    ):
-                        self.character.x = (
-                            self.tile_rect.left - self.character.character_width
-                        )
-                    elif (
-                        self.character.rect.left
-                        < self.tile_rect.right
-                        < self.character.rect.right
-                    ):
-                        self.character.x = self.tile_rect.right
-                    if (
-                        self.character.rect.bottom
-                        > self.tile_rect.top
-                        > self.character.rect.top
-                    ):
-                        self.character.y = (
-                            self.tile_rect.top - self.character.character_height
-                        )
-                    elif (
-                        self.character.rect.top
-                        < self.tile_rect.bottom
-                        < self.character.rect.bottom
-                    ):
-                        self.character.y = self.tile_rect.bottom
 
             self.character.update(self.frame)
 
