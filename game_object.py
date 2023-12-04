@@ -1,6 +1,8 @@
 import pygame
 
 
+# Initiierung der Klasse "Cup", welche im Game als Sammelobjekt verwendet wird.
+# Über das Rectangle, welches die Spielfigur und das Objekt umrahmt wird die Kollision über die colliderect Funktion möglich
 class Cup:
     def __init__(self, game, x, y, cup_width, cup_height):
         self.x = x
@@ -12,11 +14,13 @@ class Cup:
         self.is_collected = False
         self.picture_coffee_cup = pygame.image.load("./images/Objects/Coffee_Cup.png")
         self.picture_coffee_cup = pygame.transform.scale(
-            self.picture_coffee_cup, (30, 30)
+            self.picture_coffee_cup, (20, 20)
         )
 
     def draw(self):
-        pygame.draw.rect(self.game.screen, "yellow", self.rect)
+        self.rect.x = self.x
+        self.rect.y = self.y
+        # pygame.draw.rect(self.game.screen, "yellow", self.rect)
         self.game.screen.blit(self.picture_coffee_cup, (self.x, self.y))
 
     def update(self):
