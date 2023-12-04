@@ -10,7 +10,7 @@ class Character:
         self.left = False
         self.right = True
         self.isjump = False
-        self.jumpcount = 10
+        self.jumpcount = 20
         self.game = game
         self.surface = game.screen
         # Skalierung damit rectangle hinter charackter width = 75/900 * 375 = 31.25 und hight 75/900 * 505 = 42.1
@@ -98,13 +98,13 @@ class Character:
 
         keys = pygame.key.get_pressed()
 
-        if self.left and keys[pygame.K_LEFT]:
+        if self.left and keys[pygame.K_LEFT] and not (self.isjump):
             self.surface.blit(
                 self.walking_left_images[frame % len(self.walking_left_images)],
                 (self.x, self.y),
             )
 
-        if self.right and keys[pygame.K_RIGHT]:
+        if self.right and keys[pygame.K_RIGHT] and not (self.isjump):
             self.surface.blit(
                 self.walking_right_images[frame % len(self.walking_right_images)],
                 (self.x, self.y),
@@ -143,7 +143,7 @@ class Character:
             if keys[pygame.K_SPACE]:
                 self.isjump = True
         if self.isjump:
-            if self.jumpcount >= -10:
+            if self.jumpcount >= -20:
                 neg = 1
                 self.jumpcount -= 1
                 if self.jumpcount < 0:
@@ -152,7 +152,7 @@ class Character:
                 self.jumpcount -= 1
             else:
                 self.isjump = False
-                self.jumpcount = 10
+                self.jumpcount = 20
         # self.y -= speed * self.game.delta_time
         # if self.x < 0:
         #     self.x = 0
