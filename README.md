@@ -1,7 +1,8 @@
 # Definitely not Donkey Kong
 
-Das Projekt beinhaltet ein Platformer-Game, bei welchem Sammelobjekte eingesammelt werden können und so neue Fähigkeiten freigeschaltet werden.
-In a few sentences describe what your project is trying to solve.
+Das Projekt beinhaltet ein Platformer-Game, bei welchem eine animierte Spielfigur hüpfen kann, sowie nach links und nach rechts laufen.
+Ziel des Spiels ist es, die verteilten Sammelobjekte (in unserem Beispiel Kaffeetassen) einzusammeln.
+
 
 You can use [GitHub markdown
 notation](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
@@ -11,26 +12,23 @@ documentation when looking at your project online.
 
 ## Get started
 
-Explain what the user has to type to get started with your solution. Which one
-is the main Python file? In the simplest case, this could look something like
-this:
+Vor dem Start müssen einige Installs (unter requirements aufgeführt) durchgeführt werden.
+Danach kann direkt das "main.py" ausgeführt werden.
+Dadurch wird das Spiel auf einem Screen gestartet. 
 
-``
-    python main.py
-``
+Spielanleitung: Durch die Pfeiltasten (links und rechts) kann die Spielfigur bewegt werden.
+Durch das Betätigen der Leertaste hüpft die Spielfigur. 
+Mit diesen Tasten kann die Spielfigur zu den Kaffeetasen bewegt werden. Sobald die Spielfigur die Kaffeetassen berührt, werden diese eingesammelt.
+Die Anzahl der eingesammelten Kaffeetassen ist oben rechts auf dem Screen zu sehen.
+Das Spiel kann durch die Taste "Esc" oder durch das schliessen des geöffneten Fenster abgebrochen werden.
 
-In other cases the user might first have to install some project dependencies
-first has to run something like this (a sample requirements.txt file is also
-included in the project template):
-
-``
-    pip install -r requirements.txt
-``
+Hinweis: Stand 04.12.23 funktioniert die Kombination der Kollision und dem Hüpfen nicht. Dadurch können nicht alle Kaffeetassen (spezifisch die Kaffeetassen, welche auf den oberen Ebenen platziert sind) eingesammelt werden. 
+Weiter wurde, aus Zeitgründen, auf einen Wechsel in ein neues Level verzichtet. Deshalb muss das Spiel selbst abgebrochen werden und wechselt nicht nach dem einsammeln aller Objekte in das nächste Level.
 
 ## Understanding the sources
 
-Explain any high level concepts that you are using in your software. What were
-your ideas for creating the whole software? What might not be apparent from the
-sources alone? You can also add diagrams, photos of whiteboards or flipcharts
-or even crudly drawing napkin sketches of the core concepts of your software
-when they are readable and helpful for understanding.
+Es wurde eine objektorientierte Programmierung angewendet und Klassen, Objekte und Funktionen definiert. Dies ermöglicht einerseits eine bessere Übersicht des Codes sowie eine Trennung der Funktionalitäten und Klassen. Weiter ergibt sich dadurch eine gewisse Flexibilität für künftige Erweiterungen. So kann z.B. ein neues game_object relativ simpel ergänzt werden.
+
+Als Framework wurde "pygame" verwendet. Dies bietet eine erleichterte Handhabung von Grafiken bzw. dem Laden von Bildern. Ebenfalls werden Mechanismen zur Kollisionserkennung angeboten, welche in unserem Fall auch angewendet wurden. Zudem bietet das Framework eine einfache Handhabung der Benutzereingabe, welche im Spiel von Bedeutung sind.
+
+Da unser Softwareprojekt simpel gehalten wurde, ist auch die Architektur überschaubar. Es wurden pro Klasse eigene py-Dateien erstellt. Im main.py werden die Klassen abgerufen und die darin definierten Funktionen. Ergänzend zu den Dateien ist der Ordner "images" in welchem alle Grafiken abgelegt wurden sowie das MANUAL, README und requirments File, welche ergänzend zu dem Code geführt wurden.
