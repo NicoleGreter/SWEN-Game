@@ -10,6 +10,7 @@ class Character:
         self.left = False
         self.right = True
         self.isjump = False
+        self.jumpcount = 10
         self.game = game
         self.surface = game.screen
         # Skalierung damit rectangle hinter charackter width = 75/900 * 375 = 31.25 und hight 75/900 * 505 = 42.1
@@ -62,14 +63,29 @@ class Character:
                     False,
                 )
             )
-        # Jump Start
-        self.jump_start_images = []
+        # Jump Start Right
+        self.jump_start_images_right = []
         for i in range(6):
             image_path = f"./images/Minotaur/PNG/PNG Sequences/Jump Start/0_Minotaur_Jump Start_{i:03d}.png"
-            self.jump_start_images.append(
+            self.jump_start_images_right.append(
                 pygame.transform.scale(
                     pygame.image.load(image_path).convert_alpha(),
                     (self.character_width, self.character_height),
+                )
+            )
+
+        # Jump Start Left
+        self.jump_start_images_left = []
+        for i in range(6):
+            image_path = f"./images/Minotaur/PNG/PNG Sequences/Jump Start/0_Minotaur_Jump Start_{i:03d}.png"
+            self.jump_start_images_left.append(
+                pygame.transform.flip(
+                    pygame.transform.scale(
+                        pygame.image.load(image_path).convert_alpha(),
+                        (self.character_width, self.character_height),
+                    ),
+                    True,
+                    False,
                 )
             )
 
@@ -94,8 +110,19 @@ class Character:
                 (self.x, self.y),
             )
 
+        if self.isjump and self.right:
+            self.surface.blit(
+                self.jump_start_images_right[frame % len(self.jump_start_images_right)],
+                (self.x, self.y),
+            )
+
+        if self.isjump and self.left:
+            self.surface.blit(
+                self.jump_start_images_left[frame % len(self.jump_start_images_left)],
+                (self.x, self.y),
+            )
+
     def movement(self, speed, frame):
-        jumpcount = 10
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT] and not (keys[pygame.K_LEFT]):
@@ -104,38 +131,39 @@ class Character:
             self.x += speed * self.game.delta_time
             if self.x > self.game.screen_width - 75 + 24:
                 self.x = self.game.screen_width - 75 + 24
+
         if keys[pygame.K_LEFT] and not (keys[pygame.K_RIGHT]):
             self.right = False
             self.left = True
             self.x -= speed * self.game.delta_time
             if self.x < -24:
                 self.x = -24
-        # if not (isjump):
-        #     if keys[pygame.K_SPACE]:
-        #         isjump = True
-        # else:
-        #     if jumpcount >= -10:
-        #         neg = 1
-        #         self.surface.blit(
-        #             self.jump_start_images[frame % len(self.jump_start_images)],
-        #             (self.x, self.y),
-        #         )
-        #         if jumpcount < 0:
-        #             neg = -1
-        #         y -= ((jumpcount**2) * 0.5 * neg) * self.game.delta_time
-        #         jumpcount -= 1
-        #     else:
-        #         isjump = False
-        #         jumpcount = 10
+
+        if not (self.isjump):
+            if keys[pygame.K_SPACE]:
+                self.isjump = True
+        if self.isjump:
+            if self.jumpcount >= -10:
+                neg = 1
+                self.jumpcount -= 1
+                if self.jumpcount < 0:
+                    neg = -1
+                self.y -= ((self.jumpcount**2) * 0.5 * neg) * self.game.delta_time
+                self.jumpcount -= 1
+            else:
+                self.isjump = False
+                self.jumpcount = 10
         # self.y -= speed * self.game.delta_time
         # if self.x < 0:
         #     self.x = 0
-        if self.right and not (True in keys):
+
+        if self.right and not (True in keys) and not (self.isjump):
             self.surface.blit(
                 self.idle_images_right[frame % len(self.idle_images_right)],
                 (self.x, self.y),
             )
-        if self.left and not (True in keys):
+
+        if self.left and not (True in keys) and not (self.isjump):
             self.surface.blit(
                 self.idle_images_left[frame % len(self.idle_images_left)],
                 (self.x, self.y),
