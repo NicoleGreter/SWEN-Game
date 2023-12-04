@@ -1,7 +1,7 @@
 import pygame
 from leveldesign import *
 from character import Character
-from cup import Cup
+from game_object import Cup
 from pytmx.util_pygame import load_pygame
 
 BLACK = (0, 0, 0)
