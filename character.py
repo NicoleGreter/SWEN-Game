@@ -191,9 +191,6 @@ class Character:
             if self.x < -24:
                 self.x = -24
 
-        if not (self.isjump):
-            if keys[pygame.K_SPACE]:
-                self.isjump = True
         if self.isjump:
             if self.y > 560:
                 self.y = 560
