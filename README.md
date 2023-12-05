@@ -15,8 +15,7 @@ Mit diesen Tasten kann die Spielfigur zu den Kaffeetasen bewegt werden. Sobald d
 Die Anzahl der eingesammelten Kaffeetassen ist oben rechts auf dem Screen zu sehen.
 Das Spiel kann durch die Taste "Esc" oder durch das Schliessen des geöffneten Fenster abgebrochen werden.
 
-Hinweis: Stand 04.12.23 funktioniert die Kombination der Kollision und dem Hüpfen nicht. Dadurch können nicht alle Kaffeetassen (spezifisch die Kaffeetassen, welche auf den oberen Ebenen platziert sind) eingesammelt werden. 
-Weiter wurde, aus Zeitgründen, auf einen Wechsel in ein neues Level verzichtet. Deshalb muss das Spiel selbst abgebrochen werden und wechselt nicht nach dem einsammeln aller Objekte in das nächste Level.
+Weiter wurde, aus Zeitgründen, auf einen Wechsel in ein neues Level verzichtet. Deshalb muss das Spiel selbst abgebrochen werden und wechselt nicht nach dem Einsammeln aller Objekte in das nächste Level.
 
 ## Understanding the sources
 

@@ -20,9 +20,10 @@ class Game:
         # returns time when it starts to run
         self.last_update = pygame.time.get_ticks()
         self.animation_cooldown_ms = 75
+        self.gravity = 50
         self.frame = 0
         self.clock = pygame.time.Clock()
-        self.character = Character(self, 40, 560, 75, 75, 200, 0, 0)
+        self.character = Character(self, 40, 560, 75, 75, 200, 0)
         self.cups = [
             Cup(self, 200, 540, 20, 20),
             Cup(self, 280, 605, 20, 20),
@@ -36,6 +37,7 @@ class Game:
         ]
         self.counter = 0
         self.font = pygame.font.Font(None, 36)
+        self.font_endgame = pygame.font.Font(None, 48)
         self.run()
 
     def run(self):
@@ -44,10 +46,11 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    running = False
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    self.character.isjump = True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                    if event.key == pygame.K_SPACE:
+                        self.character.isjump = True
 
             self.delta_time = self.clock.tick(60) / 1000
 
@@ -67,6 +70,13 @@ class Game:
                     self.cups.remove(cup)
                     self.counter += 1
             self.display_counter()
+
+            if self.counter >= 9:
+                text = self.font_endgame.render(
+                    f"Gratulation, du hast alle Objekte gesammelt!", True, "darkgreen"
+                )
+                self.screen.blit(text, (100, 400))
+
             pygame.display.update()
 
         pygame.quit()

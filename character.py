@@ -11,7 +11,6 @@ class Character:
         character_height,
         acceleration,
         speed_x,
-        speed_y,
     ):
         self.x = x
         self.y = y
@@ -24,7 +23,6 @@ class Character:
         self.game = game
         self.acceleration = acceleration
         self.speed_x = speed_x
-        self.speed_y = speed_y
         self.surface = game.screen
         # Skalierung damit rectangle hinter charackter width = 75/900 * 375 = 31.25 und hight 75/900 * 505 = 42.1
         self.rect = pygame.Rect(self.x + 20, self.y + 21, 31.25, 42.1)
@@ -107,11 +105,17 @@ class Character:
         #     self.x, self.y, self.character_width, self.character_height
         # )
         self.draw()
-        self.movement(self.acceleration, frame)
+        self.horizental_movement(self.acceleration, frame)
         self.checkcollisions_x(self.game.tiles_rects)
+        self.vertical_movement(frame)
         self.checkcollisions_y(self.game.tiles_rects)
+        if self.y > 560:
+            self.y = 560
 
         keys = pygame.key.get_pressed()
+
+        if not self.isjump:
+            self.y += 150 * self.game.delta_time
 
         if self.left and keys[pygame.K_LEFT] and not (self.isjump):
             self.surface.blit(
@@ -119,44 +123,18 @@ class Character:
                 (self.x, self.y),
             )
 
-        # self.horizental_movement(self.acceleration_x, frame)
-        # self.vertical_movement(self.speed_y, frame)
+        if self.right and not (True in keys) and not (self.isjump):
+            self.surface.blit(
+                self.idle_images_right[frame % len(self.idle_images_right)],
+                (self.x, self.y),
+            )
 
-        # def horizental_movement(self, acceleration_x, frame):
-        #     keys = pygame.key.get_pressed()
+        if self.left and not (True in keys) and not (self.isjump):
+            self.surface.blit(
+                self.idle_images_left[frame % len(self.idle_images_left)],
+                (self.x, self.y),
+            )
 
-        #     if keys[pygame.K_RIGHT]:
-        #         if not keys[pygame.K_UP]:
-        #             self.surface.blit(
-        #                 self.walking_right_images[frame % len(self.walking_right_images)],
-        #                 (self.x, self.y),
-        #             )
-
-        #         self.speed_x = acceleration_x
-        #         self.x += self.speed_x * self.game.delta_time
-        #         if self.x > self.game.screen_width - self.character_width:
-        #             self.x = self.game.screen_width - self.character_width
-        #     if keys[pygame.K_LEFT]:
-        #         if not keys[pygame.K_UP]:
-        #             self.surface.blit(
-        #                 self.walking_left_images[frame % len(self.walking_left_images)],
-        #                 (self.x, self.y),
-        #             )
-        #         self.speed_x = acceleration_x * -1
-        #         self.x += self.speed_x * self.game.delta_time
-        #         if self.x < 0:
-        #             self.x = 0
-        #     else:
-        #         if not keys[pygame.K_UP]:
-        #             self.surface.blit(
-        #                 self.idle_images[frame % len(self.idle_images)],
-        #                 (self.x, self.y),
-        #             )
-
-        # def vertical_movement(self, speed_y, frame):
-        #     keys = pygame.key.get_pressed()
-
-        #     if keys[pygame.K_UP]:
         if self.right and keys[pygame.K_RIGHT] and not (self.isjump):
             self.surface.blit(
                 self.walking_right_images[frame % len(self.walking_right_images)],
@@ -175,18 +153,17 @@ class Character:
                 (self.x, self.y),
             )
 
-    def movement(self, acceleration, frame):
+    def horizental_movement(self, acceleration, frame):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_RIGHT] and not (keys[pygame.K_LEFT]):
+        if keys[pygame.K_RIGHT]:
             self.right = True
             self.left = False
             self.speed_x = acceleration
             self.x += self.speed_x * self.game.delta_time
             if self.x > self.game.screen_width - 75 + 24:
                 self.x = self.game.screen_width - 75 + 24
-
-        if keys[pygame.K_LEFT] and not (keys[pygame.K_RIGHT]):
+        if keys[pygame.K_LEFT]:
             self.right = False
             self.left = True
             self.speed_x = -acceleration
@@ -194,9 +171,8 @@ class Character:
             if self.x < -24:
                 self.x = -24
 
+    def vertical_movement(self, frame):
         if self.isjump:
-            if self.y > 560:
-                self.y = 560
             if self.jumpcount >= -40:
                 neg = 1
                 self.jumpcount -= 1
@@ -207,19 +183,6 @@ class Character:
             else:
                 self.isjump = False
                 self.jumpcount = 40
-        # self.y -= speed * self.game.delta_time
-
-        if self.right and not (True in keys) and not (self.isjump):
-            self.surface.blit(
-                self.idle_images_right[frame % len(self.idle_images_right)],
-                (self.x, self.y),
-            )
-
-        if self.left and not (True in keys) and not (self.isjump):
-            self.surface.blit(
-                self.idle_images_left[frame % len(self.idle_images_left)],
-                (self.x, self.y),
-            )
 
     def get_hits(self, tiles_rects):
         hits = []
@@ -232,26 +195,21 @@ class Character:
         collisions = self.get_hits(tiles)
         for tile_rect in collisions:
             if self.speed_x > 0:  # Hit tile moving right
-                self.x = tile_rect.left - 52
-                # self.rect.x = self.x
+                # self.x = tile_rect.left - 52
                 self.speed_x = 0
             elif self.speed_x < 0:  # Hit tile moving left
-                self.x = tile_rect.right - 21
-                # self.rect.x = self.x
+                # self.x = tile_rect.right - 24
                 self.speed_x = 0
 
     def checkcollisions_y(self, tiles):
+        keys = pygame.key.get_pressed()
         collisions = self.get_hits(tiles)
         for tile_rect in collisions:
-            if self.jumpcount > 0:  # Hit tile from the top
+            if self.jumpcount != 0 and not keys[pygame.K_SPACE]:
+                self.isjump = False
                 self.is_jumping = False
-                self.jumpcount = 0
-                self.y = tile_rect.top
-                # self.rect.bottom = self.y
-            elif self.jumpcount < 0:  # Hit tile from the bottom
-                self.jumpcount = 0
-                self.y = tile_rect.bottom + self.rect.h
-                # self.rect.bottom = self.y
+                self.y = tile_rect.top - 62
+                self.jumpcount = 40
 
     def draw(self):
         self.rect.x = self.x + 20
