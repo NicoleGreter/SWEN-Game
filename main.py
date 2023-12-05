@@ -22,7 +22,7 @@ class Game:
         self.animation_cooldown_ms = 75
         self.frame = 0
         self.clock = pygame.time.Clock()
-        self.character = Character(self, 40, 560, 75, 75, 50, 0, 50)
+        self.character = Character(self, 40, 560, 75, 75, 200, 0, 0)
         self.cups = [
             Cup(self, 200, 540, 20, 20),
             Cup(self, 280, 605, 20, 20),

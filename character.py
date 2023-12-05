@@ -9,7 +9,7 @@ class Character:
         y,
         character_width,
         character_height,
-        acceleration_x,
+        acceleration,
         speed_x,
         speed_y,
     ):
@@ -22,7 +22,7 @@ class Character:
         self.isjump = False
         self.jumpcount = 40
         self.game = game
-        self.acceleration_x = acceleration_x
+        self.acceleration = acceleration
         self.speed_x = speed_x
         self.speed_y = speed_y
         self.surface = game.screen
@@ -107,8 +107,9 @@ class Character:
         #     self.x, self.y, self.character_width, self.character_height
         # )
         self.draw()
-        self.movement(200, frame)
-        self.checkcollisionsx(self.game.tiles_rects)
+        self.movement(self.acceleration, frame)
+        self.checkcollisions_x(self.game.tiles_rects)
+        self.checkcollisions_y(self.game.tiles_rects)
 
         keys = pygame.key.get_pressed()
 
@@ -174,26 +175,28 @@ class Character:
                 (self.x, self.y),
             )
 
-    def movement(self, speed, frame):
+    def movement(self, acceleration, frame):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT] and not (keys[pygame.K_LEFT]):
             self.right = True
             self.left = False
-            self.x += speed * self.game.delta_time
+            self.speed_x = acceleration
+            self.x += self.speed_x * self.game.delta_time
             if self.x > self.game.screen_width - 75 + 24:
                 self.x = self.game.screen_width - 75 + 24
 
         if keys[pygame.K_LEFT] and not (keys[pygame.K_RIGHT]):
             self.right = False
             self.left = True
-            self.x -= speed * self.game.delta_time
+            self.speed_x = -acceleration
+            self.x += self.speed_x * self.game.delta_time
             if self.x < -24:
                 self.x = -24
-
-        if not (self.isjump):
-            if keys[pygame.K_SPACE]:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 self.isjump = True
+
         if self.isjump:
             if self.y > 560:
                 self.y = 560
@@ -228,17 +231,30 @@ class Character:
                 hits.append(tile_rect)
         return hits
 
-    def checkcollisionsx(self, tiles):
+    def checkcollisions_x(self, tiles):
         collisions = self.get_hits(tiles)
         for tile_rect in collisions:
             if self.speed_x > 0:  # Hit tile moving right
                 self.x = tile_rect.left - 52
-                self.rect.x = self.x
+                # self.rect.x = self.x
                 self.speed_x = 0
             elif self.speed_x < 0:  # Hit tile moving left
                 self.x = tile_rect.right - 21
-                self.rect.x = self.x
+                # self.rect.x = self.x
                 self.speed_x = 0
+
+    def checkcollisions_y(self, tiles):
+        collisions = self.get_hits(tiles)
+        for tile_rect in collisions:
+            if self.jumpcount > 0:  # Hit tile from the top
+                self.is_jumping = False
+                self.jumpcount = 0
+                self.y = tile_rect.top
+                # self.rect.bottom = self.y
+            elif self.jumpcount < 0:  # Hit tile from the bottom
+                self.jumpcount = 0
+                self.y = tile_rect.bottom + self.rect.h
+                # self.rect.bottom = self.y
 
     def draw(self):
         self.rect.x = self.x + 20
