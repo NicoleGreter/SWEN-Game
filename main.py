@@ -46,6 +46,8 @@ class Game:
                     running = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     running = False
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                    self.character.isjump = True
 
             self.delta_time = self.clock.tick(60) / 1000
 

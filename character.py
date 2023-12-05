@@ -193,9 +193,6 @@ class Character:
             self.x += self.speed_x * self.game.delta_time
             if self.x < -24:
                 self.x = -24
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                self.isjump = True
 
         if self.isjump:
             if self.y > 560:
