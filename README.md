@@ -1,7 +1,5 @@
 # Definitely not Donkey Kong
 
-Test
-
 Das Projekt beinhaltet ein Platformer-Game, bei welchem eine animierte Spielfigur hüpfen kann, sowie nach links und nach rechts laufen.
 Ziel des Spiels ist es, die verteilten Sammelobjekte (in unserem Beispiel Kaffeetassen) einzusammeln.
 
