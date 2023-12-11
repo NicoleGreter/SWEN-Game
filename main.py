@@ -71,11 +71,9 @@ class Game:
                     self.counter += 1
             self.display_counter()
 
-            if self.counter >= 9:
-                text = self.font_endgame.render(
-                    f"Gratulation, du hast alle Objekte gesammelt!", True, "darkgreen"
-                )
-                self.screen.blit(text, (100, 400))
+            if self.counter >= 1:
+                text = self.font_endgame.render(f"COFFEE OVERLOAD", True, "saddlebrown")
+                self.screen.blit(text, (300, 400))
 
             pygame.display.update()
 
