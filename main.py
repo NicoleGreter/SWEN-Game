@@ -71,7 +71,7 @@ class Game:
                     self.counter += 1
             self.display_counter()
 
-            if self.counter >= 1:
+            if self.counter >= 9:
                 text = self.font_endgame.render(f"COFFEE OVERLOAD", True, "saddlebrown")
                 self.screen.blit(text, (300, 400))
 

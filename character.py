@@ -105,16 +105,21 @@ class Character:
         #     self.x, self.y, self.character_width, self.character_height
         # )
         self.draw()
-        self.horizental_movement(self.acceleration, frame)
+        self.horizental_movement(self.acceleration)
         self.checkcollisions_x(self.game.tiles_rects)
-        self.vertical_movement(frame)
+        self.vertical_movement()
         self.checkcollisions_y(self.game.tiles_rects)
-        if self.y > 560:
+
+        if (
+            self.y > 560
+        ):  # Character kann nicht weiter als unterste Ebene fallen, diese wurde nicht als Tile eingefügt
             self.y = 560
 
         keys = pygame.key.get_pressed()
 
-        if not self.isjump:
+        if (
+            not self.isjump
+        ):  # Character fällt mit einer Geschwindigkeit von 150, wenn er nicht aufgrund einer Collision auf etwas stehen bleibt
             self.y += 150 * self.game.delta_time
 
         if self.left and keys[pygame.K_LEFT] and not (self.isjump):
@@ -153,7 +158,7 @@ class Character:
                 (self.x, self.y),
             )
 
-    def horizental_movement(self, acceleration, frame):
+    def horizental_movement(self, acceleration):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT]:
@@ -171,7 +176,7 @@ class Character:
             if self.x < -24:
                 self.x = -24
 
-    def vertical_movement(self, frame):
+    def vertical_movement(self):
         if self.isjump:
             if self.jumpcount >= -40:
                 neg = 1
