@@ -5,7 +5,7 @@ tilemap_image = pygame.image.load("./images/Leveldesign_ohne_Platform.png")
 
 class Background(pygame.sprite.Sprite):
     def __init__(self, image_file, location):
-        pygame.sprite.Sprite.__init__(self)  # call Sprite initializer
+        pygame.sprite.Sprite.__init__(self)
         self.image = image_file
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location

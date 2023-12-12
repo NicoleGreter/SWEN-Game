@@ -199,11 +199,9 @@ class Character:
     def checkcollisions_x(self, tiles):
         collisions = self.get_hits(tiles)
         for tile_rect in collisions:
-            if self.speed_x > 0:  # Hit tile moving right
-                # self.x = tile_rect.left - 52
+            if self.speed_x > 0:
                 self.speed_x = 0
-            elif self.speed_x < 0:  # Hit tile moving left
-                # self.x = tile_rect.right - 24
+            elif self.speed_x < 0:
                 self.speed_x = 0
 
     def checkcollisions_y(self, tiles):
